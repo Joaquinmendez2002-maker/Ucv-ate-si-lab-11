@@ -2,13 +2,18 @@ name: Python CI
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: ["main", "feature/lab11"]
   pull_request:
-    branches: ["main", "develop"]
+    branches: ["main", "feature/lab11"]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    # ─── ESTA LÍNEA ES CLAVE PARA TU ESTRUCTURA DE SUB_CARPETAS ───
+    defaults:
+      run:
+        working-directory: alpha-beta-lab
 
     steps:
       - name: Checkout repository
