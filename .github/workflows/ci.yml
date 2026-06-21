@@ -20,13 +20,20 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        # Le indicamos explícitamente a este paso dónde encontrar requirements.txt
         run: |
           python -m pip install --upgrade pip
           pip install -r alpha-beta-lab/requirements.txt
 
       - name: Run tests with coverage
-        # Le indicamos a pytest que se ejecute posicionándose dentro de la subcarpeta
         working-directory: alpha-beta-lab
         run: |
           pytest --cov=src --cov-report=xml --cov-report=term-missing
+
+      # ─── AGREGAR ESTE PASO FINAL PARA ENVIAR LOS DATOS A SONAR ───
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          # Le indicamos a Sonar dónde está el archivo de propiedades en tu subcarpeta
+          projectBaseDir: alpha-beta-lab
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
