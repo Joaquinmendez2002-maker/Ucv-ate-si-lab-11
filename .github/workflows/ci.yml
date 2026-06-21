@@ -9,11 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
-    # ─── ESTA LÍNEA ES CLAVE PARA TU ESTRUCTURA DE SUB_CARPETAS ───
-    defaults:
-      run:
-        working-directory: alpha-beta-lab
 
     steps:
       - name: Checkout repository
@@ -25,10 +20,13 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
+        # Le indicamos explícitamente a este paso dónde encontrar requirements.txt
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r alpha-beta-lab/requirements.txt
 
       - name: Run tests with coverage
+        # Le indicamos a pytest que se ejecute posicionándose dentro de la subcarpeta
+        working-directory: alpha-beta-lab
         run: |
           pytest --cov=src --cov-report=xml --cov-report=term-missing
